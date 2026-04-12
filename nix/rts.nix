@@ -56,8 +56,8 @@ pkgs.stdenv.mkDerivation {
   nativeBuildInputs = [ pkgs.makeWrapper pkgs.removeReferencesTo pkgs.cacert ];
 
   buildInputs = with pkgs; [
-    llvmPackages_19.clang
-    llvmPackages_19.bintools
+    llvmPackages_20.clang
+    llvmPackages_20.bintools
     rust-nightly
     wasmtime
     rust-bindgen
