@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>md/icp-features/7-view-queries.md</title>
+  <style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">md/icp-features/7-view-queries.md</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#stable-variable-inspection-with---generate-view-queries"
+id="toc-stable-variable-inspection-with---generate-view-queries">Stable
+Variable Inspection with <code>--generate-view-queries</code></a>
+<ul>
+<li><a href="#usage" id="toc-usage">Usage</a></li>
+<li><a href="#how-it-works" id="toc-how-it-works">How it works</a>
+<ul>
+<li><a href="#1-view-method-available"
+id="toc-1-view-method-available">1. <code>.view()</code> method
+available</a></li>
+<li><a href="#2-shared-type-fallback" id="toc-2-shared-type-fallback">2.
+Shared-type fallback</a></li>
+<li><a href="#3-no-generation" id="toc-3-no-generation">3. No
+generation</a></li>
+<li><a href="#3-approximation-to-any" id="toc-3-approximation-to-any">3.
+Approximation to <code>Any</code></a></li>
+</ul></li>
+<li><a href="#access-control" id="toc-access-control">Access
+control</a></li>
+<li><a href="#candid-interface-behaviour"
+id="toc-candid-interface-behaviour">Candid interface behaviour</a></li>
+<li><a href="#writing-custom-view-methods"
+id="toc-writing-custom-view-methods">Writing custom <code>.view()</code>
+methods</a>
+<ul>
+<li><a href="#signature-pattern" id="toc-signature-pattern">Signature
+pattern</a></li>
+<li><a href="#example-paginated-map-view"
+id="toc-example-paginated-map-view">Example: paginated map view</a></li>
+<li><a href="#reusable-view-mixin" id="toc-reusable-view-mixin">Reusable
+view mixin</a></li>
+</ul></li>
+<li><a href="#example-full-actor" id="toc-example-full-actor">Example:
+full actor</a></li>
+<li><a href="#limitations" id="toc-limitations">Limitations</a></li>
+<li><a href="#links" id="toc-links">Links</a></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="stable-variable-inspection-with---generate-view-queries">Stable
+Variable Inspection with <code>--generate-view-queries</code></h1>
+<p>The <code>--generate-view-queries</code> compiler flag instructs
+<code>moc</code> to auto-generate <strong>query methods</strong> that
+expose the contents of an actor's stable variables for inspection at
+runtime. This enables tooling, dashboards, and generic front-end UIs to
+browse canister state without writing boilerplate accessor code.</p>
+<h2 id="usage">Usage</h2>
+<pre><code>moc --generate-view-queries ...</code></pre>
+<p>The flag is <strong>off by default</strong>. When enabled, the
+compiler examines every stable variable in the actor and, where
+possible, emits a corresponding query function.</p>
+<h2 id="how-it-works">How it works</h2>
+<p>For each stable variable <code>id</code> of type
+<code>&lt;typ&gt;</code>, the compiler attempts to generate a public
+query method named <code>__id</code>. Generation is skipped if:</p>
+<ul>
+<li>A member named <code>__id</code> is already declared in the actor
+(user-defined methods take precedence).</li>
+<li>The name <code>__id</code> has the reserved prefix
+<code>__motoko</code>.</li>
+</ul>
+<p>When generation proceeds, the compiler chooses one of two
+strategies:</p>
+<h3 id="1-view-method-available">1. <code>.view()</code> method
+available</h3>
+<p>If the expression <code>id.view()</code> resolves to a function with
+shared argument types <code>(T1, ..., TN)</code> and shared result type
+<code>R</code>, the compiler generates:</p>
+<pre class="motoko"><code>public shared ({ caller }) query func __id(arg1 : T1, ..., argN : TN) : async R {
+  &lt;access-control&gt;;
+  id.view()(arg1, ..., argN)
+};</code></pre>
+<p>The <code>.view()</code> call may rely on implicit arguments (such as
+<code>compare</code>) provided they resolve at the call site. This is
+the preferred strategy because it lets library authors define
+<strong>logical views</strong> of non-shared data structures. For
+example, a B-tree map can present its entries as paginated key-value
+pairs instead of exposing its internal node layout.</p>
+<h3 id="2-shared-type-fallback">2. Shared-type fallback</h3>
+<p>If no <code>.view()</code> method is available but
+<code>&lt;typ&gt;</code> is a shared type, the compiler generates a
+simple accessor:</p>
+<pre class="motoko"><code>public shared ({ caller }) query func __id() : async &lt;typ&gt; {
+  &lt;access-control&gt;;
+  id
+};</code></pre>
+<h3 id="3-no-generation">3. No generation</h3>
+<h3 id="3-approximation-to-any">3. Approximation to
+<code>Any</code></h3>
+<p>If neither condition is met (no <code>.view()</code> and the type is
+not shared), the query just returns a value of the non-informative type
+<code>Any</code>.</p>
+<h2 id="access-control">Access control</h2>
+<p>Every generated query enforces that the <code>caller</code> must be
+either:</p>
+<ol type="1">
+<li>The canister <strong>itself</strong> (self-calls), or</li>
+<li>A <strong>controller</strong> of the canister.</li>
+</ol>
+<p>Unauthorized callers receive a trap:
+<code>"Unauthorized caller (caller must be self or a controller)"</code>.</p>
+<h2 id="candid-interface-behaviour">Candid interface behaviour</h2>
+<ul>
+<li><strong>Public interface</strong> (custom section /
+<code>--public-metadata candid:service</code>): Generated view queries
+are <strong>excluded</strong>. This means upgrading a canister never
+requires view methods to be backward-compatible, and stable variable
+implementation details do not leak into the public API.</li>
+<li><strong>Local <code>.did</code> file</strong>
+(<code>moc --idl</code>): Generated view queries <strong>are
+included</strong>. This allows generic front-end tools to parse the full
+Candid description and present a type-driven UI for data
+inspection.</li>
+</ul>
+<h2 id="writing-custom-view-methods">Writing custom <code>.view()</code>
+methods</h2>
+<p>A <code>.view()</code> method is a function resolved via contextual
+dot syntax on a stable variable's type. It must return a function whose
+argument and return types are all shared.</p>
+<h3 id="signature-pattern">Signature pattern</h3>
+<pre class="motoko"><code>module MyView {
+  public func view&lt;...&gt;(self : &lt;DataType&gt;, ...) : (arg1 : T1, ..., argN : TN) -&gt; R = ...
+}</code></pre>
+<p>Implicit arguments (like <code>compare</code> for ordered
+collections) are supported and resolved automatically by the
+compiler.</p>
+<h3 id="example-paginated-map-view">Example: paginated map view</h3>
+<pre class="motoko"><code>module MapView {
+  public func view&lt;K, V&gt;(
+    self : Map.Map&lt;K, V&gt;,
+    compare : (implicit : (K, K) -&gt; Order.Order)
+  ) : (ko : ?K, count : ?Nat) -&gt; [(K, V)] =
+    func(ko, count) {
+      let entries = switch ko {
+        case null { self.entries() };
+        case (?k) { self.entriesFrom(k) };
+      };
+      switch count {
+        case null { entries.toArray() };
+        case (?c) { entries.take(c).toArray() };
+      };
+    };
+};</code></pre>
+<p>Given a stable variable:</p>
+<pre class="motoko"><code>let customers : Map.Map&lt;Text, Customer&gt; = Map.empty();</code></pre>
+<p>The compiler generates a query with the Motoko signature:</p>
+<pre class="motoko"><code>public shared query func __customers(ko : ?Text, count : ?Nat) : async [(Text, Customer)]</code></pre>
+<p>And corresponding Candid signature:</p>
+<pre class="candid"><code>__customers : (ko : opt text, count : opt nat) -&gt; (vec record { text; Customer }) query;</code></pre>
+<h3 id="reusable-view-mixin">Reusable view mixin</h3>
+<p>View modules for common core data structures (<code>Map</code>,
+<code>Set</code>, arrays, <code>List</code>, <code>Stack</code>,
+<code>Queue</code>, and their pure counterparts) can be collected into a
+<strong>mixin</strong> and included in any actor:</p>
+<pre class="motoko"><code>import Views &quot;views&quot;;
+
+persistent actor {
+  include Views();
+
+  let customers : Map.Map&lt;Text, Customer&gt; = Map.empty();
+  // __customers query is auto-generated using MapView.view
+};</code></pre>
+<h2 id="example-full-actor">Example: full actor</h2>
+<pre class="motoko"><code>//MOC-FLAG --generate-view-queries
+import Array &quot;mo:core/Array&quot;;
+
+persistent actor Self {
+
+  module ArrayView {
+    public func view&lt;V&gt;(self : [var V]) :
+      (start : Nat, count : Nat) -&gt; [V] =
+      func(start, count) {
+        Array.tabulate&lt;V&gt;(count, func i { self[start + i] })
+      };
+  };
+
+  // .view() available -&gt; generates paginated query
+  let array : [var (Nat, Text)] = [var (1, &quot;1&quot;), (2, &quot;2&quot;)];
+
+  // shared type, no .view() -&gt; generates simple accessor
+  var some_variant = #node(#leaf, 0, #leaf);
+  let some_record = { a = 1; b = &quot;hello&quot;; c = true };
+
+  // non-shared type, no .view() -&gt; no query generated
+  let some_mutable_record = { var a = 1 };
+};</code></pre>
+<p>The actor above exposes the following generated queries:</p>
+<table>
+<thead>
+<tr>
+<th>Stable variable</th>
+<th>Strategy</th>
+<th>Generated query</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>array</code></td>
+<td><code>.view()</code></td>
+<td><code>__array(start : Nat, count : Nat) : async [(Nat, Text)]</code></td>
+</tr>
+<tr>
+<td><code>some_variant</code></td>
+<td>shared fallback</td>
+<td><code>__some_variant() : async Tree</code></td>
+</tr>
+<tr>
+<td><code>some_record</code></td>
+<td>shared fallback</td>
+<td><code>__some_record() : async {a : Nat; b : Text; c : Bool}</code></td>
+</tr>
+<tr>
+<td><code>some_mutable_record</code></td>
+<td>approximated</td>
+<td><code>__some_mutable_record() : async Any</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="limitations">Limitations</h2>
+<ul>
+<li>View queries are <strong>not</strong> part of the canister's public
+Candid interface and are therefore invisible to other canisters
+importing the actor's type.</li>
+<li>Only controllers and the canister itself may call the generated
+queries; there is currently no hook for application-level
+authorization.</li>
+<li>If a <code>.view()</code> method returns a non-shared type, the
+variable is treated as if no <code>.view()</code> exists (the view is
+silently skipped).</li>
+</ul>
+<h2 id="links">Links</h2>
+<p>The sample project <a
+href="https://github.com/crusso/motoko-stable-viewer">https://github.com/crusso/motoko-stable-viewer</a>
+is a simple database application. It provides its own, reusable
+<code>views.mo</code> mixin, that adds simple paginated views to
+<code>core</code> collections. Its frontend uses a generic react
+component that renders the backend's stable variables. The rendering is
+driven by the backend's Candid interface file.</p>
+</body>
+</html>
